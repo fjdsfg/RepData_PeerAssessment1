@@ -1,13 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r, echo=TRUE}
+
+```r
 #Unzips the file from the repository
 unzip("activity.zip")
 #Loads the file into a dataframe
@@ -16,7 +12,8 @@ dataframe <- read.csv("activity.csv")
 
 
 ## What is mean total number of steps taken per day?
-```{r, echo=TRUE}
+
+```r
 #1. Calculate the total number of steps taken per day
 day_steps  <- tapply(dataframe$steps,dataframe$date,sum)
 
@@ -30,7 +27,11 @@ qplot(day_steps[!is.na(day_steps)],
       col = I("blue"),
       alpha = I(0.8),
       binwidth = 1000)
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```r
 #3. Compute the mean and median of the total number of steps taken per day
 mean_steps <- mean(day_steps,na.rm = TRUE)
 median_steps <- median(day_steps,na.rm = TRUE)
@@ -38,7 +39,8 @@ median_steps <- median(day_steps,na.rm = TRUE)
 
 
 ## What is the average daily activity pattern?
-```{r, echo=TRUE}
+
+```r
 #Retrieve the average amount of steps per 5 minute interval
 average_steps  <- tapply(dataframe$steps,dataframe$interval,mean,na.rm=TRUE)
 
@@ -50,7 +52,11 @@ plot(names(average_steps),average_steps,type="l",
      main = "Steps per Five Minute Interval",
      col = "red")
 grid()
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
 #2. Which 5-minute interval, on average across all days in the dataset, contains
 #the maximum number of steos
 interval <- as.numeric(names(which.max(average_steps)))
@@ -58,7 +64,8 @@ interval <- as.numeric(names(which.max(average_steps)))
 
 
 ## Imputing missing values
-```{r, echo=TRUE}
+
+```r
 #1. Calculate and report the total number of missing values in the dataset
 missing_values <- which(is.na(dataframe$steps))
 total_missing <- length(missing_values)
@@ -83,14 +90,19 @@ qplot(new_day_steps,
       col = I("blue"),
       alpha = I(0.8),
       binwidth = 1000)
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+```r
 new_mean_steps <- mean(new_day_steps)
 new_median_steps <- median(new_day_steps)
 ```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r, echo=TRUE}
+
+```r
 #1. Create a new factor variable in the dataset with two levels - "weekday"
 # and "weekend" indicating whether a given date is a weekday or weekend day
 new_dataframe[,"Weekday"] <- weekdays(as.Date(new_dataframe$date))
@@ -128,3 +140,5 @@ final <- data.frame(interval = intervals, steps = steps, weekday = factors)
 library(lattice)
 xyplot(steps~interval|weekday,data=final,type="l", layout=c(1,2))
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
