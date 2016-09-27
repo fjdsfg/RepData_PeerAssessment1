@@ -35,6 +35,19 @@ qplot(day_steps[!is.na(day_steps)],
 #3. Compute the mean and median of the total number of steps taken per day
 mean_steps <- mean(day_steps,na.rm = TRUE)
 median_steps <- median(day_steps,na.rm = TRUE)
+print(paste(c("Average Number of Steps: ",mean_steps),collapse=""))
+```
+
+```
+## [1] "Average Number of Steps: 10766.1886792453"
+```
+
+```r
+print(paste(c("Median Number of Steps: ",median_steps),collapse=""))
+```
+
+```
+## [1] "Median Number of Steps: 10765"
 ```
 
 
@@ -58,8 +71,13 @@ grid()
 
 ```r
 #2. Which 5-minute interval, on average across all days in the dataset, contains
-#the maximum number of steos
+#the maximum number of steps
 interval <- as.numeric(names(which.max(average_steps)))
+print(paste(c("Interval with maximum number of steps: ",interval),collapse=""))
+```
+
+```
+## [1] "Interval with maximum number of steps: 835"
 ```
 
 
@@ -69,7 +87,14 @@ interval <- as.numeric(names(which.max(average_steps)))
 #1. Calculate and report the total number of missing values in the dataset
 missing_values <- which(is.na(dataframe$steps))
 total_missing <- length(missing_values)
+print(paste(c("Number of missing values: ",total_missing),collapse=""))
+```
 
+```
+## [1] "Number of missing values: 2304"
+```
+
+```r
 #2. Devise a strategy for filling in all of the missing values in the dataset.
 replacement <- average_steps[as.character(dataframe[missing_values,"interval"])]
 
@@ -97,6 +122,19 @@ qplot(new_day_steps,
 ```r
 new_mean_steps <- mean(new_day_steps)
 new_median_steps <- median(new_day_steps)
+print(paste(c("New average: ", new_mean_steps),collapse=""))
+```
+
+```
+## [1] "New average: 10766.1886792453"
+```
+
+```r
+print(paste(c("New median: ", new_median_steps),collapse=""))
+```
+
+```
+## [1] "New median: 10766.1886792453"
 ```
 
 
@@ -138,7 +176,12 @@ final <- data.frame(interval = intervals, steps = steps, weekday = factors)
 
 #Plot the panel
 library(lattice)
-xyplot(steps~interval|weekday,data=final,type="l", layout=c(1,2))
+xyplot(steps~interval|weekday,data=final,
+       type=c("l","g"), 
+       layout=c(1,2), 
+       main = "Number of steps during a weekday/weekend",
+       xlab = "Five-minute interval",
+       ylab = "Number of steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
