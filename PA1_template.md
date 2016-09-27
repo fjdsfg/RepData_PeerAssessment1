@@ -4,6 +4,10 @@
 ## Loading and preprocessing the data
 
 ```r
+#Method that improves the presentation of inline numbers
+knitr::knit_hooks$set(inline = function(x) {
+  knitr:::format_sci(x, 'md')
+})
 #Unzips the file from the repository
 unzip("activity.zip")
 #Loads the file into a dataframe
@@ -50,6 +54,7 @@ print(paste(c("Median Number of Steps: ",median_steps),collapse=""))
 ## [1] "Median Number of Steps: 10765"
 ```
 
+The mean number of steps is 1.0766189&times; 10^4^ and the median 10765.
 
 ## What is the average daily activity pattern?
 
@@ -80,6 +85,7 @@ print(paste(c("Interval with maximum number of steps: ",interval),collapse=""))
 ## [1] "Interval with maximum number of steps: 835"
 ```
 
+The five minute interval with the maximum number of steps is 835.
 
 ## Imputing missing values
 
@@ -137,6 +143,12 @@ print(paste(c("New median: ", new_median_steps),collapse=""))
 ## [1] "New median: 10766.1886792453"
 ```
 
+The total number of missing values is 2304 - after imputing the 
+average value of the five minute interval, the new average number of steps is
+1.0766189&times; 10^4^ and the new median 1.0766189&times; 10^4^.
+
+As a conclusion, imputing new values alters the distribution of the data as
+observed by the new median value of steps.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -185,3 +197,11 @@ xyplot(steps~interval|weekday,data=final,
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+Observing the plot, we can see that during a weekday, the number of steps
+is higher during the early part of the day, though the number of steps steadily
+decreases until the end.
+
+As for weekends, we can observe that we do not have a high peak of steps during
+the early part of the day, but instead we have prolonged period of time
+where the number of steps per five-minute interval is almost constant.

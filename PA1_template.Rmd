@@ -8,6 +8,10 @@ output:
 
 ## Loading and preprocessing the data
 ```{r, echo=TRUE}
+#Method that improves the presentation of inline numbers
+knitr::knit_hooks$set(inline = function(x) {
+  knitr:::format_sci(x, 'md')
+})
 #Unzips the file from the repository
 unzip("activity.zip")
 #Loads the file into a dataframe
@@ -38,6 +42,7 @@ print(paste(c("Average Number of Steps: ",mean_steps),collapse=""))
 print(paste(c("Median Number of Steps: ",median_steps),collapse=""))
 ```
 
+The mean number of steps is `r mean_steps` and the median `r median_steps`.
 
 ## What is the average daily activity pattern?
 ```{r, echo=TRUE}
@@ -59,6 +64,7 @@ interval <- as.numeric(names(which.max(average_steps)))
 print(paste(c("Interval with maximum number of steps: ",interval),collapse=""))
 ```
 
+The five minute interval with the maximum number of steps is `r interval`.
 
 ## Imputing missing values
 ```{r, echo=TRUE}
@@ -94,6 +100,12 @@ print(paste(c("New average: ", new_mean_steps),collapse=""))
 print(paste(c("New median: ", new_median_steps),collapse=""))
 ```
 
+The total number of missing values is `r total_missing` - after imputing the 
+average value of the five minute interval, the new average number of steps is
+`r new_mean_steps` and the new median `r new_median_steps`.
+
+As a conclusion, imputing new values alters the distribution of the data as
+observed by the new median value of steps.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 ```{r, echo=TRUE}
@@ -139,3 +151,11 @@ xyplot(steps~interval|weekday,data=final,
        xlab = "Five-minute interval",
        ylab = "Number of steps")
 ```
+
+Observing the plot, we can see that during a weekday, the number of steps
+is higher during the early part of the day, though the number of steps steadily
+decreases until the end.
+
+As for weekends, we can observe that we do not have a high peak of steps during
+the early part of the day, but instead we have prolonged period of time
+where the number of steps per five-minute interval is almost constant.
